@@ -1,5 +1,6 @@
 {
   "replace": false,
   "amount": 2,
-  "icon": "scout:gui/pouch_slot"
+  "icon": "scout:gui/pouch_slot",
+  "validator_predicates": ["trinkets:tag"]
 }

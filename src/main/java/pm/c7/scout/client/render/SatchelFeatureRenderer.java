@@ -19,8 +19,8 @@ import pm.c7.scout.client.model.SatchelModel;
 import pm.c7.scout.item.BaseBagItem;
 
 public class SatchelFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
-	private static final Identifier SATCHEL_TEXTURE = new Identifier(ScoutUtil.MOD_ID, "textures/entity/satchel.png");
-	private static final Identifier UPGRADED_SATCHEL_TEXTURE = new Identifier(ScoutUtil.MOD_ID, "textures/entity/upgraded_satchel.png");
+	private static final Identifier SATCHEL_TEXTURE = Identifier.of(ScoutUtil.MOD_ID, "textures/entity/satchel.png");
+	private static final Identifier UPGRADED_SATCHEL_TEXTURE = Identifier.of(ScoutUtil.MOD_ID, "textures/entity/upgraded_satchel.png");
 
 	private final SatchelModel<T> satchel;
 
@@ -44,9 +44,9 @@ public class SatchelFeatureRenderer<T extends LivingEntity, M extends EntityMode
 			((PlayerEntityModel<?>) this.getContextModel()).body.rotate(matrices);
 			this.getContextModel().copyStateTo(this.satchel);
 			VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(
-					vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), false, satchel.hasGlint()
+					vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), satchel.hasGlint()
 			);
-			this.satchel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+			this.satchel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 0xFFFFFFFF);
 			matrices.pop();
 		}
 	}

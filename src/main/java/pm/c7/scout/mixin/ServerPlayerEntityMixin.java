@@ -1,9 +1,7 @@
 package pm.c7.scout.mixin;
 
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.GameRules;
@@ -69,8 +67,7 @@ public class ServerPlayerEntityMixin {
 				}
 			}
 
-			PacketByteBuf packet = new PacketByteBuf(Unpooled.buffer());
-			ServerPlayNetworking.send(player, ScoutNetworking.ENABLE_SLOTS, packet);
+			ScoutUtil.refreshSlots(player);
 		}
 	}
 }

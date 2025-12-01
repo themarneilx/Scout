@@ -28,12 +28,12 @@ import pm.c7.scout.screen.BagSlot;
 public class ScoutClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		ClientPlayNetworking.registerGlobalReceiver(ScoutNetworking.ENABLE_SLOTS, (client, handler, packet, sender) -> {
-			client.execute(() -> {
-				assert client.player != null;
-				ScoutScreenHandler screenHandler = (ScoutScreenHandler) client.player.playerScreenHandler;
+		ClientPlayNetworking.registerGlobalReceiver(ScoutNetworking.EnableSlotsPayload.ID, (packet, context) -> {
+			context.client().execute(() -> {
+				assert context.client().player != null;
+				ScoutScreenHandler screenHandler = (ScoutScreenHandler) context.client().player.playerScreenHandler;
 
-				ItemStack satchelStack = ScoutUtil.findBagItem(client.player, BagType.SATCHEL, false);
+				ItemStack satchelStack = packet.satchel();
 				DefaultedList<BagSlot> satchelSlots = screenHandler.scout$getSatchelSlots();
 
 				for (int i = 0; i < ScoutUtil.MAX_SATCHEL_SLOTS; i++) {
@@ -52,7 +52,7 @@ public class ScoutClient implements ClientModInitializer {
 					}
 				}
 
-				ItemStack leftPouchStack = ScoutUtil.findBagItem(client.player, BagType.POUCH, false);
+				ItemStack leftPouchStack = packet.leftPouch();
 				DefaultedList<BagSlot> leftPouchSlots = screenHandler.scout$getLeftPouchSlots();
 
 				for (int i = 0; i < ScoutUtil.MAX_POUCH_SLOTS; i++) {
@@ -71,7 +71,7 @@ public class ScoutClient implements ClientModInitializer {
 					}
 				}
 
-				ItemStack rightPouchStack = ScoutUtil.findBagItem(client.player, BagType.POUCH, true);
+				ItemStack rightPouchStack = packet.rightPouch();
 				DefaultedList<BagSlot> rightPouchSlots = screenHandler.scout$getRightPouchSlots();
 
 				for (int i = 0; i < ScoutUtil.MAX_POUCH_SLOTS; i++) {

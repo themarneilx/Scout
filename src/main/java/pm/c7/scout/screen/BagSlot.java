@@ -97,8 +97,10 @@ public class BagSlot extends Slot {
 	}
 	public void setX(int x) {
 		this.realX = x;
+		((pm.c7.scout.mixin.SlotAccessor) this).scout$setX(x);
 	}
 	public void setY(int y) {
 		this.realY = y;
+		((pm.c7.scout.mixin.SlotAccessor) this).scout$setY(y);
 	}
 }

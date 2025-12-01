@@ -18,12 +18,20 @@ import pm.c7.scout.item.BaseBagItem;
 @Mixin(BowItem.class)
 public class BowItemMixin {
 	@Inject(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"), locals = LocalCapture.CAPTURE_FAILHARD)
-	public void scout$arrowsFromBags(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci, PlayerEntity playerEntity, boolean bl, ItemStack itemStack, int maxTime, float f) {
+	public void scout$arrowsFromBags(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci, PlayerEntity playerEntity, ItemStack itemStack, int maxTime, float f) {
 		if (ScoutConfig.useArrows) {
-			boolean infinity = bl && itemStack.isOf(Items.ARROW);
+			boolean creative = playerEntity.getAbilities().creativeMode;
+			boolean hasInfinity = false;
+			var registry = world.getRegistryManager().get(net.minecraft.registry.RegistryKeys.ENCHANTMENT);
+			var infinityEntry = registry.getEntry(net.minecraft.enchantment.Enchantments.INFINITY);
+			if (infinityEntry.isPresent()) {
+				hasInfinity = net.minecraft.enchantment.EnchantmentHelper.getLevel(infinityEntry.get(), stack) > 0;
+			}
+			
+			boolean infinity = (creative || hasInfinity) && itemStack.isOf(Items.ARROW);
 			boolean hasRan = false;
 
-			if (!infinity && !playerEntity.getAbilities().creativeMode) {
+			if (!infinity && !creative) {
 				var leftPouch = ScoutUtil.findBagItem(playerEntity, BaseBagItem.BagType.POUCH, false);
 				var rightPouch = ScoutUtil.findBagItem(playerEntity, BaseBagItem.BagType.POUCH, true);
 				var satchel = ScoutUtil.findBagItem(playerEntity, BaseBagItem.BagType.SATCHEL, false);

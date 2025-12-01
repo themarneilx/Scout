@@ -2,9 +2,32 @@
   "required": true,
   "minVersion": "0.8",
   "package": "pm.c7.scout.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "plugin": "pm.c7.scout.ScoutMixin",
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "BowItemMixin",
+    "PlayerEntityMixin",
+    "PlayerScreenHandlerMixin",
+    "ScreenHandlerMixin",
+    "ServerPlayerEntityMixin",
+    "ShulkerBoxSlotMixin",
+    "SlotAccessor"
+  ],
+  "client": [
+    "client.AbstractFurnaceScreenMixin",
+    "client.CraftingScreenMixin",
+    "client.DefaultedListMixin",
+    "client.HandledScreenAccessor",
+    "client.HandledScreenMixin",
+    "client.InventoryScreenMixin",
+    "client.RecipeBookWidgetMixin",
+    "client.ScreenHandlerMixin"
+  ],
+  "server": [
+    "server.DefaultedListMixin",
+    "server.ScreenHandlerMixin"
+  ]
 }

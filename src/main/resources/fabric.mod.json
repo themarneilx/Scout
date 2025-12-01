@@ -24,9 +24,8 @@
   "depends": {
     "fabric": ">=${fabric_version}",
     "minecraft": ">=${minecraft_version}",
-    "trinkets": ">=${trinkets_version}",
-    "lib39-core": ">=${lib39_version}",
-    "lib39-dessicant": ">=${lib39_version}"
+    "java": ">=21",
+    "trinkets": ">=${trinkets_version}"
   },
   "recommends": {
     "emi": ">=${emi_version}"

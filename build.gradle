@@ -1,5 +1,5 @@
 plugins {
-	alias libs.plugins.quilt.loom
+	alias libs.plugins.fabric.loom
 }
 
 base {
@@ -54,8 +54,8 @@ dependencies {
 
 	// not JiJ because it causes its mixins to fail to load
 	modApi "dev.emi:trinkets:${libs.versions.trinkets.get()}"
-	modApi include("com.unascribed:lib39-core:${libs.versions.lib39.get()}+${libs.versions.minecraft.get()}")
-	modApi include("com.unascribed:lib39-dessicant:${libs.versions.lib39.get()}+${libs.versions.minecraft.get()}")
+	// modApi include("com.unascribed:lib39-core:${libs.versions.lib39.get()}+${libs.versions.minecraft.get()}")
+	// modApi include("com.unascribed:lib39-dessicant:${libs.versions.lib39.get()}+${libs.versions.minecraft.get()}")
 
 	modCompileOnly "dev.emi:emi-fabric:${libs.versions.emi.get()}+${libs.versions.minecraft.get()}:api"
 	modLocalRuntime "dev.emi:emi-fabric:${libs.versions.emi.get()}+${libs.versions.minecraft.get()}"
@@ -66,7 +66,7 @@ processResources {
 	inputs.property 'minecraft_version', libs.versions.minecraft.get()
 	inputs.property 'fabric_version', libs.versions.fabric.api.get()
 	inputs.property 'trinkets_version', libs.versions.trinkets.get()
-	inputs.property 'lib39_version', libs.versions.lib39.get()
+	// inputs.property 'lib39_version', libs.versions.lib39.get()
 	inputs.property 'emi_version', libs.versions.emi.get()
 
 	filesMatching('fabric.mod.json') {
@@ -75,7 +75,7 @@ processResources {
 			"minecraft_version": libs.versions.minecraft.get(),
 			"fabric_version": libs.versions.fabric.api.get(),
 			"trinkets_version": libs.versions.trinkets.get(),
-			"lib39_version": libs.versions.lib39.get(),
+			// "lib39_version": libs.versions.lib39.get(),
 			"emi_version": libs.versions.emi.get()
 		)
 	}
@@ -84,13 +84,13 @@ processResources {
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = 'UTF-8'
 	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
+	it.options.release = 21
 }
 
 java {
 	// Still required by IDEs such as Eclipse and Visual Studio Code
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {

@@ -4,19 +4,19 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.collection.DefaultedList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pm.c7.scout.ScoutScreenHandler;
 import pm.c7.scout.ScoutUtil;
-import pm.c7.scout.ScoutMixin.Transformer;
 import pm.c7.scout.screen.BagSlot;
 
 @Mixin(value = PlayerScreenHandler.class, priority = 950)
-@Transformer(PlayerScreenHandlerTransformer.class)
 public abstract class PlayerScreenHandlerMixin extends ScreenHandler implements ScoutScreenHandler {
 	protected PlayerScreenHandlerMixin() {
 		super(null, 0);
@@ -31,6 +31,7 @@ public abstract class PlayerScreenHandlerMixin extends ScreenHandler implements 
 
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void scout$addSlots(PlayerInventory inventory, boolean onServer, PlayerEntity owner, CallbackInfo callbackInfo) {
+		// ... (keep existing logic) ...
 		// satchel
 		int x = 8;
 		int y = 168;
@@ -84,6 +85,14 @@ public abstract class PlayerScreenHandlerMixin extends ScreenHandler implements 
 
 			y -= 18;
 		}
+	}
+
+	@Redirect(method = "quickMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/collection/DefaultedList;get(I)Ljava/lang/Object;"))
+	public Object scout$getSlot(DefaultedList<Slot> list, int index) {
+		if (ScoutUtil.isBagSlot(index)) {
+			return ScoutUtil.getBagSlot(index, (PlayerScreenHandler) (Object) this);
+		}
+		return list.get(index);
 	}
 
 	@Override
